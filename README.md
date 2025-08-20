@@ -20,8 +20,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Toggle;
 use ToneGabes\Filament\Icons\Enums\Phosphor;
 
-Action::make('star')
-  ->icon(Phosphor::StarBold)
+Action::make('star')->icon(Phosphor::StarBold);
 
 Toggle::make('is_starred')
   ->onIcon(Phosphor::Star)
@@ -32,7 +31,7 @@ If you would like to use an icon in a Blade component, you can pass it as an att
 
 ```php
 @php
-    use ToneGabes\Filament\Icons\Phosphor;
+    use ToneGabes\Filament\Icons\Enums\Phosphor;
 @endphp
 
 <x-filament::badge :icon="Phosphor::Star">

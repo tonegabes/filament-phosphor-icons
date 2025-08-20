@@ -4,6 +4,7 @@ namespace ToneGabes\Filament\Icons\Enums;
 
 use Filament\Support\Contracts\ScalableIcon;
 use Filament\Support\Enums\IconSize;
+use Stringable;
 
 enum Phosphor: string implements ScalableIcon
 {
@@ -9080,6 +9081,9 @@ enum Phosphor: string implements ScalableIcon
     case YoutubeLogoThin = 'phosphor-youtube-logo-thin';
     case YoutubeLogo = 'phosphor-youtube-logo';
 
+    /**
+     * Get the icon for a specific size (Filament).
+     */
     public function getIconForSize(IconSize $size): string
     {
         return match ($size) {
@@ -9087,13 +9091,109 @@ enum Phosphor: string implements ScalableIcon
         };
     }
 
-    public static function thin(): self
+    /**
+     * Force the icon to be the "thin" variant.
+     */
+    public function thin(): string
     {
-        return self::from(str_replace('phosphor-', 'phosphor-thin-', $this->value));
+        return match ($this) {
+            str_ends_with($this->value, '-bold') => str_replace('-bold', '-thin', $this->value),
+            str_ends_with($this->value, '-duotone') => str_replace('-duotone', '-thin', $this->value),
+            str_ends_with($this->value, '-fill') => str_replace('-fill', '-thin', $this->value),
+            str_ends_with($this->value, '-light') => str_replace('-light', '-thin', $this->value),
+            str_ends_with($this->value, '-thin') => $this->value,
+            default => "{$this->value}-thin",
+        };
     }
 
-    public static function light(): self
+    /**
+     * Force the icon to be the "light" variant.
+     */
+    public function light(): string
     {
-        return self::from(str_replace('phosphor-', 'phosphor-light-', $this->value));
+        return match ($this) {
+            str_ends_with($this->value, '-bold') => str_replace('-bold', '-light', $this->value),
+            str_ends_with($this->value, '-duotone') => str_replace('-duotone', '-light', $this->value),
+            str_ends_with($this->value, '-fill') => str_replace('-fill', '-light', $this->value),
+            str_ends_with($this->value, '-light') => $this->value,
+            str_ends_with($this->value, '-thin') => str_replace('-thin', '-light', $this->value),
+            default => "{$this->value}-light",
+        };
+    }
+
+    /**
+     * Force the icon to be the "fill" variant.
+     */
+    public function fill(): string
+    {
+        return match ($this) {
+            str_ends_with($this->value, '-bold') => str_replace('-bold', '-fill', $this->value),
+            str_ends_with($this->value, '-duotone') => str_replace('-duotone', '-fill', $this->value),
+            str_ends_with($this->value, '-fill') => $this->value,
+            str_ends_with($this->value, '-light') => str_replace('-light', '-fill', $this->value),
+            str_ends_with($this->value, '-thin') => str_replace('-thin', '-fill', $this->value),
+            default => "{$this->value}-fill",
+        };
+    }
+
+    /**
+     * Force the icon to be the "duotone" variant.
+     */
+    public function duotone(): string
+    {
+        return match ($this) {
+            str_ends_with($this->value, '-bold') => str_replace('-bold', '-duotone', $this->value),
+            str_ends_with($this->value, '-duotone') => $this->value,
+            str_ends_with($this->value, '-fill') => str_replace('-fill', '-duotone', $this->value),
+            str_ends_with($this->value, '-light') => str_replace('-light', '-duotone', $this->value),
+            str_ends_with($this->value, '-thin') => str_replace('-thin', '-duotone', $this->value),
+            default => "{$this->value}-duotone",
+        };
+    }
+
+    /**
+     * Force the icon to be the "bold" variant.
+     */
+    public function bold(): string
+    {
+        return match ($this) {
+            str_ends_with($this->value, '-bold') => $this->value,
+            str_ends_with($this->value, '-fill') => str_replace('-fill', '-bold', $this->value),
+            str_ends_with($this->value, '-light') => str_replace('-light', '-bold', $this->value),
+            str_ends_with($this->value, '-duotone') => str_replace('-duotone', '-bold', $this->value),
+            str_ends_with($this->value, '-thin') => str_replace('-thin', '-bold', $this->value),
+            default => "{$this->value}-bold",
+        };
+    }
+
+    /**
+     * Force the icon to be the "regular" variant.
+     */
+    public function regular(): string
+    {
+        return match ($this) {
+            str_ends_with($this->value, '-bold') => str_replace('-bold', '', $this->value),
+            str_ends_with($this->value, '-fill') => str_replace('-fill', '', $this->value),
+            str_ends_with($this->value, '-light') => str_replace('-light', '', $this->value),
+            str_ends_with($this->value, '-thin') => str_replace('-thin', '', $this->value),
+            str_ends_with($this->value, '-duotone') => str_replace('-duotone', '', $this->value),
+            default => $this->value,
+        };
+    }
+
+    /**
+     * Force the icon to be a specific style.
+     */
+    public function forceStyle(string $style): string
+    {
+        return match ($style) {
+            'thin'    => $this->thin(),
+            'light'   => $this->light(),
+            'fill'    => $this->fill(),
+            'duotone' => $this->duotone(),
+            'bold'    => $this->bold(),
+            'regular' => $this->regular(),
+            default   => $this->value,
+        };
     }
 }
