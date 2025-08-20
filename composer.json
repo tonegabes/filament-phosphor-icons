@@ -1,0 +1,38 @@
+{
+  "name": "tonegabes/filament-phosphor-icons",
+  "description": "Phosphor Icons Pack ready for Filament 4",
+  "type": "library",
+  "keywords": [
+    "Laravel",
+    "Filament",
+    "icons",
+    "Phosphor",
+    "library",
+    "iconset",
+    "ToneGabes"
+  ],
+  "require": {
+    "php": "^8.2",
+    "codeat3/blade-phosphor-icons": "^2.3",
+    "filament/filament": "^4.0"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "ToneGabes\\Filament\\Icons\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Tone Gabes",
+      "email": "tonegabes@gmail.com",
+      "role": "Developer",
+      "homepage": "https://tonegabes.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "require-dev": {
+    "laravel/pint": "^1.22"
+  }
+}
