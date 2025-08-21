@@ -27,6 +27,41 @@ Toggle::make('is_starred')
 
 ```
 
+## Variant helpers
+
+You can quickly switch icon weights using helper methods on the enum value:
+
+- thin
+- light
+- regular
+- bold
+- fill
+- duotone
+
+```php
+use Filament\Actions\Action;
+use Filament\Forms\Components\Toggle;
+use ToneGabes\Filament\Icons\Enums\Phosphor;
+
+Action::make('star')->icon(Phosphor::Star->bold());
+
+Toggle::make('is_starred')
+    ->onIcon(Phosphor::Star->thin())
+    ->offIcon(Phosphor::Star->regular());
+```
+
+Important: helper methods override the enum case's default style. For example, even if you pick a bold case, calling a helper will switch the weight:
+
+```php
+// Overrides the default bold case to thin at runtime
+Action::make('star')->icon(Phosphor::StarBold->thin());
+```
+
+```php
+Action::make('star')->icon(Phosphor::Star->forceWeight($var));
+
+```
+
 If you would like to use an icon in a Blade component, you can pass it as an attribute:
 
 ```php

@@ -9182,11 +9182,11 @@ enum Phosphor: string implements ScalableIcon
     }
 
     /**
-     * Force the icon to be a specific style.
+     * Force the icon to be a specific weight.
      */
-    public function forceStyle(string $style): string
+    public function forceWeight(string $weight): string
     {
-        return match ($style) {
+        return match ($weight) {
             'thin'    => $this->thin(),
             'light'   => $this->light(),
             'fill'    => $this->fill(),
