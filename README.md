@@ -32,41 +32,73 @@ Toggle::make('is_starred')
   ->onIcon(Phosphor::Star)
 ```
 
-## Variant helpers
+## Weights
 
-For convenience, the enum includes helper methods so you can quickly switch or force icon weights on the enum value:
+This package includes a enum with weights you can use:
 
-- thin
-- light
-- regular
-- bold
-- fill
-- duotone
+```php
+enum Weight: string
+{
+    case Thin = 'thin';
+    case Light = 'light';
+    case Fill = 'fill';
+    case Duotone = 'duotone';
+    case Bold = 'bold';
+    case Regular = 'regular';
+}
+
+```
+
+Use it to force a certain style:
 
 ```php
 use Filament\Forms\Components\Toggle;
 use ToneGabes\Filament\Icons\Enums\Phosphor;
+use ToneGabes\Filament\Icons\Enums\Weight;
 
-// Approach 1
+// Simple
 Toggle::make('is_starred')
     ->onIcon(Phosphor::StarFill)
     ->offIcon(Phosphor::Star)
 ;
 
-// Approach 2
+// Forcing with enum
 Toggle::make('is_starred')
-    ->onIcon(Phosphor::Star->fill())
-    ->offIcon(Phosphor::Star->regular());
-```
-
-Important: note that helper methods override the enum case's default style. For example, even if you pick a bold case, calling a helper will switch the weight:
-
-```php
-// Overrides the default bold case to thin at runtime
-Action::make('star')->icon(Phosphor::StarBold->thin());
+    ->onIcon(Phosphor::Star->forceWeight(Weight::Fill))
+    ->offIcon(Phosphor::Star->forceWeight(Weight::Regular));
 
 // You can use 'forceWeight' to set weight based on a variable
 Action::make('star')->icon(Phosphor::StarBold->forceWeight($var));
+
+```
+
+## Helpers
+
+For convenience, this package also comes with helper methods to improve DX and make more dynamic code:
+
+```php
+// Overrides the default bold case to another at runtime
+  ->icon(Phosphor::StarBold->thin());
+  ->icon(Phosphor::StarBold->light());
+  ->icon(Phosphor::StarBold->regular());
+  ->icon(Phosphor::StarBold->fill());
+  ->icon(Phosphor::StarBold->bold());
+  ->icon(Phosphor::StarBold->duotone());
+```
+
+You can also use with conditions:
+
+```php
+// Approach 1
+IconColumn::make('is_favorite')
+    ->icon(fn (string $state) => match ($state) {
+        true => Phosphor::HeartFill,
+        false => Phosphor::Heart,
+    })
+
+// Approach 1
+IconColumn::make('is_favorite')
+    ->icon(fn (string $state) => Phosphor::Heart->fill($state))
 ```
 
 ## Usage in Blade
