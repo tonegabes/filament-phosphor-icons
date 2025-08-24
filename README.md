@@ -103,16 +103,26 @@ IconColumn::make('is_favorite')
 
 ## Usage in Blade
 
-If you would like to use an icon in a Blade component, you can pass it as an attribute:
+If you would like to use an icon in a Blade component, you can:
 
 ```php
 @php
     use ToneGabes\Filament\Icons\Enums\Phosphor;
 @endphp
 
+// Use it as attribute
 <x-filament::badge :icon="Phosphor::Star">
     Star
 </x-filament::badge>
+
+// Use it as svg directive
+@svg(Phosphor::Star->getLabel())
+
+// Use it as svg helper
+{{ svg(Phosphor::Star->getLabel()) }}
+
+// Use it as component
+<x-icon name="{{ Phosphor::Star->getLabel() }}" />
 
 ```
 
