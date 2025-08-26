@@ -96,7 +96,7 @@ IconColumn::make('is_favorite')
         false => Phosphor::Heart,
     })
 
-// Approach 1
+// Approach 2
 IconColumn::make('is_favorite')
     ->icon(fn (string $state) => Phosphor::Heart->fill($state))
 ```
@@ -124,14 +124,6 @@ If you would like to use an icon in a Blade component, you can:
 // Use it as component
 <x-icon name="{{ Phosphor::Star->getLabel() }}" />
 
-```
-
-## Commands
-
-This package gives you an artisan command, so you can sync Phosphor icons from Blade icons to this package enum.
-
-```php
-php artisan phosphor:sync
 ```
 
 ## Credits
