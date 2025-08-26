@@ -21,6 +21,13 @@
       "ToneGabes\\Filament\\Icons\\": "src/"
     }
   },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "ToneGabes\\Filament\\Icons\\PhosphorIconsServiceProvider"
+      ]
+    }
+  },
   "authors": [
     {
       "name": "Tone Gabes",

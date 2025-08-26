@@ -126,6 +126,14 @@ If you would like to use an icon in a Blade component, you can:
 
 ```
 
+## Commands
+
+This package gives you an artisan command, so you can sync Phosphor icons from Blade icons to this package enum.
+
+```php
+php artisan phosphor:sync
+```
+
 ## Credits
 
 - [Tone Gabes](https://github.com/tonegabes)

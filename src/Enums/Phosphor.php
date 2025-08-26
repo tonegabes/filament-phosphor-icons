@@ -7,9 +7,8 @@ namespace ToneGabes\Filament\Icons\Enums;
 use Filament\Support\Contracts\HasLabel;
 use Filament\Support\Contracts\ScalableIcon;
 use Filament\Support\Enums\IconSize;
-use ToneGabes\Filament\Icons\Enums\Weight;
 
-enum Phosphor: string implements ScalableIcon, HasLabel
+enum Phosphor: string implements HasLabel, ScalableIcon
 {
     case AcornBold = 'acorn-bold';
     case AcornDuotone = 'acorn-duotone';
@@ -9086,8 +9085,6 @@ enum Phosphor: string implements ScalableIcon, HasLabel
 
     /**
      * Get the icon name with the "phosphor-" prefix.
-     *
-     * @return string
      */
     public function getLabel(): string
     {
@@ -9096,10 +9093,6 @@ enum Phosphor: string implements ScalableIcon, HasLabel
 
     /**
      * Get the icon for a specific size (Filament).
-     *
-     * @param IconSize $size
-     *
-     * @return string
      */
     public function getIconForSize(IconSize $size): string
     {
@@ -9110,10 +9103,6 @@ enum Phosphor: string implements ScalableIcon, HasLabel
 
     /**
      * Force the icon to be the "thin" variant.
-     *
-     * @param bool $condition
-     *
-     * @return string
      */
     public function thin(bool $condition = true): string
     {
@@ -9122,10 +9111,6 @@ enum Phosphor: string implements ScalableIcon, HasLabel
 
     /**
      * Force the icon to be the "light" variant.
-     *
-     * @param bool $condition
-     *
-     * @return string
      */
     public function light(bool $condition = true): string
     {
@@ -9134,10 +9119,6 @@ enum Phosphor: string implements ScalableIcon, HasLabel
 
     /**
      * Force the icon to be the "fill" variant.
-     *
-     * @param bool $condition
-     *
-     * @return string
      */
     public function fill(bool $condition = true): string
     {
@@ -9146,10 +9127,6 @@ enum Phosphor: string implements ScalableIcon, HasLabel
 
     /**
      * Force the icon to be the "duotone" variant.
-     *
-     * @param bool $condition
-     *
-     * @return string
      */
     public function duotone(bool $condition = true): string
     {
@@ -9158,10 +9135,6 @@ enum Phosphor: string implements ScalableIcon, HasLabel
 
     /**
      * Force the icon to be the "bold" variant.
-     *
-     * @param bool $condition
-     *
-     * @return string
      */
     public function bold(bool $condition = true): string
     {
@@ -9170,10 +9143,6 @@ enum Phosphor: string implements ScalableIcon, HasLabel
 
     /**
      * Force the icon to be the "regular" variant.
-     *
-     * @param bool $condition
-     *
-     * @return string
      */
     public function regular(bool $condition = true): string
     {
@@ -9182,11 +9151,6 @@ enum Phosphor: string implements ScalableIcon, HasLabel
 
     /**
      * Force the icon to be a specific weight.
-     *
-     * @param Weight $newWeight
-     * @param bool $condition
-     *
-     * @return string
      */
     public function forceWeight(Weight $newWeight, bool $condition = true): string
     {
