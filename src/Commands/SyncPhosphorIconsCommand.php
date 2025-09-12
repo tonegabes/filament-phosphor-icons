@@ -32,7 +32,7 @@ class SyncPhosphorIconsCommand extends Command
     /**
      * Path to Phosphor enum
      */
-    private const ENUM_PATH = 'src/Enums/Phosphor.php';
+    private const ENUM_PATH = 'vendor/tonegabes/filament-phosphor-icons/src/Enums/Phosphor.php';
 
     /**
      * Execute the command
