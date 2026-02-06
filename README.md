@@ -4,7 +4,7 @@
 
 # Filament Phosphor Icons
 
-A Phosphor icon set ready to be used as Enums in a Filament 4 application.
+A Phosphor icon set ready to be used as Enums in a Filament 5 application.
 
 ## Installation
 
