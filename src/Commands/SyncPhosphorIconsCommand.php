@@ -17,7 +17,9 @@ class SyncPhosphorIconsCommand extends Command
     /**
      * Command name and signature
      */
-    protected $signature = 'phosphor:sync {--dry-run : Run without modifying files}';
+    protected $signature = 'phosphor:sync
+        {--dry-run : Run without modifying files}
+        {--enum-path= : Path to the Phosphor enum file to update}';
 
     /**
      * Command description
@@ -32,7 +34,7 @@ class SyncPhosphorIconsCommand extends Command
     /**
      * Path to Phosphor enum
      */
-    private const ENUM_PATH = 'vendor/tonegabes/filament-phosphor-icons/src/Enums/Phosphor.php';
+    private const ENUM_PATH = 'src/Enums/Phosphor.php';
 
     /**
      * Execute the command
@@ -42,19 +44,24 @@ class SyncPhosphorIconsCommand extends Command
         $this->info('🔄 Starting Phosphor icons synchronization...');
 
         $basePath = $this->getBasePath();
+        $enumPath = $this->getEnumPath();
 
-        if (!File::isDirectory($basePath . '/' . self::SVG_PATH)) {
-            $this->error('❌ SVG directory not found: ' . self::SVG_PATH);
+        if (! File::isDirectory($basePath.'/'.self::SVG_PATH)) {
+            $this->error('❌ SVG directory not found: '.self::SVG_PATH);
             $this->error('Make sure the codeat3/blade-phosphor-icons package is installed.');
+
             return Command::FAILURE;
         }
 
-        if (!File::exists($basePath . '/' . self::ENUM_PATH)) {
-            $this->error('❌ Enum file not found: ' . self::ENUM_PATH);
+        if (! File::exists($enumPath)) {
+            $this->error('❌ Enum file not found: '.$enumPath);
+
             return Command::FAILURE;
         }
 
         try {
+            $this->line("🧭 Enum path: {$enumPath}");
+
             $svgIcons = $this->getSvgIcons();
             $this->info("📁 Found {$svgIcons->count()} SVG icons");
 
@@ -65,6 +72,7 @@ class SyncPhosphorIconsCommand extends Command
 
             if ($missingIcons->isEmpty()) {
                 $this->info('✅ All icons are already synchronized!');
+
                 return Command::SUCCESS;
             }
 
@@ -76,20 +84,28 @@ class SyncPhosphorIconsCommand extends Command
             }
 
             if ($missingIcons->count() > 10) {
-                $this->line("  ... and " . ($missingIcons->count() - 10) . " more icons");
+                $this->line('  ... and '.($missingIcons->count() - 10).' more icons');
             }
 
             if ($this->option('dry-run')) {
                 $this->info('🔍 Dry-run mode: no changes were made');
+
                 return Command::SUCCESS;
             }
 
-            if (!$this->confirm('Do you want to add these icons to the enum?')) {
+            if (! File::isWritable($enumPath)) {
+                $this->error('❌ Enum file is not writable: '.$enumPath);
+
+                return Command::FAILURE;
+            }
+
+            if (! $this->confirm('Do you want to add these icons to the enum?')) {
                 $this->info('❌ Operation cancelled');
+
                 return Command::SUCCESS;
             }
 
-            $this->addIconsToEnum($missingIcons);
+            $this->addIconsToEnum($missingIcons, $enumPath);
 
             $this->info('✅ Synchronization completed successfully!');
             $this->info("📝 Added {$missingIcons->count()} new icons to enum");
@@ -97,7 +113,8 @@ class SyncPhosphorIconsCommand extends Command
             return Command::SUCCESS;
 
         } catch (\Exception $e) {
-            $this->error('❌ Error during synchronization: ' . $e->getMessage());
+            $this->error('❌ Error during synchronization: '.$e->getMessage());
+
             return Command::FAILURE;
         }
     }
@@ -108,7 +125,7 @@ class SyncPhosphorIconsCommand extends Command
     private function getSvgIcons(): Collection
     {
         $basePath = $this->getBasePath();
-        $svgFiles = File::files($basePath . '/' . self::SVG_PATH);
+        $svgFiles = File::files($basePath.'/'.self::SVG_PATH);
 
         return collect($svgFiles)
             ->map(fn ($file) => pathinfo($file->getFilename(), PATHINFO_FILENAME))
@@ -121,10 +138,9 @@ class SyncPhosphorIconsCommand extends Command
      */
     private function getEnumIcons(): Collection
     {
-        $basePath = $this->getBasePath();
-        $enumContent = File::get($basePath . '/' . self::ENUM_PATH);
+        $enumContent = File::get($this->getEnumPath());
 
-        preg_match_all("/case\s+\w+\s+=\s+'([^']+)'/", $enumContent, $matches);
+        preg_match_all('/case\s+\w+\s+=\s+\'([^\']+)\'/', $enumContent, $matches);
 
         return collect($matches[1])
             ->sort()
@@ -134,10 +150,9 @@ class SyncPhosphorIconsCommand extends Command
     /**
      * Add missing icons to enum
      */
-    private function addIconsToEnum(Collection $missingIcons): void
+    private function addIconsToEnum(Collection $missingIcons, string $enumPath): void
     {
-        $basePath = $this->getBasePath();
-        $enumContent = File::get($basePath . '/' . self::ENUM_PATH);
+        $enumContent = File::get($enumPath);
 
         $newCases = $missingIcons
             ->map(fn ($icon) => $this->generateEnumCase($icon))
@@ -169,7 +184,7 @@ class SyncPhosphorIconsCommand extends Command
             }
         }
 
-        File::put($basePath . '/' . self::ENUM_PATH, $enumContent);
+        File::put($enumPath, $enumContent);
     }
 
     /**
@@ -184,13 +199,45 @@ class SyncPhosphorIconsCommand extends Command
         $currentDir = getcwd() ?: __DIR__;
 
         while ($currentDir !== dirname($currentDir)) {
-            if (file_exists($currentDir . '/composer.json')) {
+            if (file_exists($currentDir.'/composer.json')) {
                 return $currentDir;
             }
             $currentDir = dirname($currentDir);
         }
 
         return getcwd() ?: __DIR__;
+    }
+
+    /**
+     * Get the enum path to update.
+     */
+    private function getEnumPath(): string
+    {
+        $enumPath = $this->option('enum-path') ?: $this->getPackageBasePath().'/'.self::ENUM_PATH;
+
+        if ($this->isAbsolutePath($enumPath)) {
+            return $enumPath;
+        }
+
+        return $this->getBasePath().'/'.$enumPath;
+    }
+
+    /**
+     * Get the package base path.
+     */
+    private function getPackageBasePath(): string
+    {
+        return dirname(__DIR__, 2);
+    }
+
+    /**
+     * Determine if a path is absolute across supported platforms.
+     */
+    private function isAbsolutePath(string $path): bool
+    {
+        return str_starts_with($path, '/')
+            || str_starts_with($path, '\\')
+            || preg_match('/^[A-Za-z]:[\\\\\/]/', $path) === 1;
     }
 
     /**

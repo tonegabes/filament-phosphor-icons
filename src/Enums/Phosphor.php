@@ -9152,11 +9152,13 @@ enum Phosphor: string implements HasLabel, ScalableIcon
     /**
      * Force the icon to be a specific weight.
      */
-    public function forceWeight(Weight $newWeight, bool $condition = true): string
+    public function forceWeight(Weight|string $newWeight, bool $condition = true): string
     {
         if ($condition === false) {
             return $this->getLabel();
         }
+
+        $newWeight = is_string($newWeight) ? Weight::from($newWeight) : $newWeight;
 
         $icon = $this->getLabel();
 

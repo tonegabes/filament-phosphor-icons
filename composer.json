@@ -21,6 +21,10 @@
       "ToneGabes\\Filament\\Icons\\": "src/"
     }
   },
+  "scripts": {
+    "test": "php tests/run.php",
+    "lint": "pint --test"
+  },
   "extra": {
     "laravel": {
       "providers": [
