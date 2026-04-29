@@ -4,7 +4,7 @@
 
 # Filament Phosphor Icons
 
-A Phosphor icon set ready to be used as Enums in a Filament 5 application.
+A Phosphor icon set ready to be used as Enums in Filament 4 and 5 applications.
 
 ## Installation
 
@@ -16,7 +16,7 @@ composer require tonegabes/filament-phosphor-icons
 
 ## Usage
 
-All icons are available through an enum providing convenient usage throughout your Filament app. For more information, check the [Filament docs](https://filamentphp.com/docs/4.x/styling/icons).
+All icons are available through an enum providing convenient usage throughout your Filament app. For more information, check the [Filament 4 docs](https://filamentphp.com/docs/4.x/styling/icons) or the [Filament 5 docs](https://filamentphp.com/docs/5.x/styling/icons).
 
 For all available icons check the [Phosphor Icons](https://phosphoricons.com/).
 
@@ -67,7 +67,7 @@ Toggle::make('is_starred')
     ->onIcon(Phosphor::Star->forceWeight(Weight::Fill))
     ->offIcon(Phosphor::Star->forceWeight(Weight::Regular));
 
-// You can use 'forceWeight' to set weight based on a variable
+// You can use 'forceWeight' to set weight based on a Weight enum or string value
 Action::make('star')->icon(Phosphor::StarBold->forceWeight($var));
 
 ```
@@ -129,10 +129,17 @@ If you would like to use an icon in a Blade component, you can:
 ## Commands
 
 This package gives you an artisan command, so you can sync Phosphor icons from Blade icons to this package enum.
-It is, of course, a temporary solution in case news icons have dropped and this package is not updated yet.
+It is, of course, a temporary solution in case new icons have dropped and this package is not updated yet.
 
 ```php
 php artisan phosphor:sync
+```
+
+By default, the command updates the enum file inside this package. You can preview the result or point it to a specific enum path:
+
+```bash
+php artisan phosphor:sync --dry-run
+php artisan phosphor:sync --enum-path=src/Enums/Phosphor.php
 ```
 
 ## Credits
