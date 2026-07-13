@@ -120,7 +120,7 @@ Retrieve all icons or filter them by weight. These methods return icon labels wi
 
 ```php
 // All icons
-Phosphor::getAllIcons();
+Phosphor::getIcons();
 
 // Filter by weight
 Phosphor::getRegularIcons();
