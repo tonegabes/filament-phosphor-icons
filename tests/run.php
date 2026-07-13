@@ -99,11 +99,11 @@ test('detects icon weights', function (): void {
 });
 
 test('lists icons by weight', function (): void {
-    assertSameValue(count(Phosphor::cases()), count(Phosphor::getAllIcons()));
-    assertSameValue(true, in_array('phosphor-star-bold', Phosphor::getAllBoldIcons(), true));
-    assertSameValue(true, in_array('phosphor-star', Phosphor::getAllRegularIcons(), true));
-    assertSameValue(1512, count(Phosphor::getAllBoldIcons()));
-    assertSameValue(1512, count(Phosphor::getAllRegularIcons()));
+    assertSameValue(count(Phosphor::cases()), count(Phosphor::getIcons()));
+    assertSameValue(true, in_array('phosphor-star-bold', Phosphor::getBoldIcons(), true));
+    assertSameValue(true, in_array('phosphor-star', Phosphor::getRegularIcons(), true));
+    assertSameValue(1512, count(Phosphor::getBoldIcons()));
+    assertSameValue(1512, count(Phosphor::getRegularIcons()));
 });
 
 echo PHP_EOL;

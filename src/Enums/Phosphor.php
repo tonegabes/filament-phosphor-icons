@@ -9230,7 +9230,7 @@ enum Phosphor: string implements HasLabel, ScalableIcon
     /**
      * @return array<int, string>
      */
-    public static function getAllIcons(): array
+    public static function getIcons(): array
     {
         return array_map(fn (self $icon) => $icon->getLabel(), self::cases());
     }
@@ -9238,7 +9238,7 @@ enum Phosphor: string implements HasLabel, ScalableIcon
     /**
      * @return array<int, string>
      */
-    public static function getAllDuotoneIcons(): array
+    public static function getDuotoneIcons(): array
     {
         return self::getIconsByWeight(fn (self $icon) => $icon->isDuotone());
     }
@@ -9246,7 +9246,7 @@ enum Phosphor: string implements HasLabel, ScalableIcon
     /**
      * @return array<int, string>
      */
-    public static function getAllFillIcons(): array
+    public static function getFilledIcons(): array
     {
         return self::getIconsByWeight(fn (self $icon) => $icon->isFill());
     }
@@ -9254,7 +9254,7 @@ enum Phosphor: string implements HasLabel, ScalableIcon
     /**
      * @return array<int, string>
      */
-    public static function getAllLightIcons(): array
+    public static function getLightIcons(): array
     {
         return self::getIconsByWeight(fn (self $icon) => $icon->isLight());
     }
@@ -9262,7 +9262,7 @@ enum Phosphor: string implements HasLabel, ScalableIcon
     /**
      * @return array<int, string>
      */
-    public static function getAllThinIcons(): array
+    public static function getThinIcons(): array
     {
         return self::getIconsByWeight(fn (self $icon) => $icon->isThin());
     }
@@ -9270,7 +9270,7 @@ enum Phosphor: string implements HasLabel, ScalableIcon
     /**
      * @return array<int, string>
      */
-    public static function getAllBoldIcons(): array
+    public static function getBoldIcons(): array
     {
         return self::getIconsByWeight(fn (self $icon) => $icon->isBold());
     }
@@ -9278,7 +9278,7 @@ enum Phosphor: string implements HasLabel, ScalableIcon
     /**
      * @return array<int, string>
      */
-    public static function getAllRegularIcons(): array
+    public static function getRegularIcons(): array
     {
         return self::getIconsByWeight(fn (self $icon) => $icon->isRegular());
     }
