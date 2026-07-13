@@ -101,6 +101,36 @@ IconColumn::make('is_favorite')
     ->icon(fn (string $state) => Phosphor::Heart->fill($state))
 ```
 
+### Weight checks
+
+Check the weight of an icon case at runtime:
+
+```php
+Phosphor::StarBold->isBold();      // true
+Phosphor::StarFill->isFill();      // true
+Phosphor::StarDuotone->isDuotone(); // true
+Phosphor::StarLight->isLight();    // true
+Phosphor::StarThin->isThin();      // true
+Phosphor::Star->isRegular();       // true
+```
+
+### Listing icons
+
+Retrieve all icons or filter them by weight. These methods return icon labels with the `phosphor-` prefix:
+
+```php
+// All icons
+Phosphor::getAllIcons();
+
+// Filter by weight
+Phosphor::getRegularIcons();
+Phosphor::getBoldIcons();
+Phosphor::getFilledIcons();
+Phosphor::getDuotoneIcons();
+Phosphor::getLightIcons();
+Phosphor::getThinIcons();
+```
+
 ## Usage in Blade
 
 If you would like to use an icon in a Blade component, you can:
