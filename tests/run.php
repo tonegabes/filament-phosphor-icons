@@ -91,6 +91,21 @@ test('enum values match the installed Phosphor SVG set', function (): void {
     assertSameValue($svgIcons, $enumIcons);
 });
 
+test('detects icon weights', function (): void {
+    assertSameValue(true, Phosphor::StarBold->isBold());
+    assertSameValue(true, Phosphor::StarFill->isFill());
+    assertSameValue(true, Phosphor::Star->isRegular());
+    assertSameValue(false, Phosphor::Star->isBold());
+});
+
+test('lists icons by weight', function (): void {
+    assertSameValue(count(Phosphor::cases()), count(Phosphor::getAllIcons()));
+    assertSameValue(true, in_array('phosphor-star-bold', Phosphor::getAllBoldIcons(), true));
+    assertSameValue(true, in_array('phosphor-star', Phosphor::getAllRegularIcons(), true));
+    assertSameValue(1512, count(Phosphor::getAllBoldIcons()));
+    assertSameValue(1512, count(Phosphor::getAllRegularIcons()));
+});
+
 echo PHP_EOL;
 
 if ($failures !== []) {

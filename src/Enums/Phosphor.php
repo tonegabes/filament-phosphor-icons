@@ -9174,4 +9174,124 @@ enum Phosphor: string implements HasLabel, ScalableIcon
             ? $icon
             : "{$icon}-{$newWeight->value}";
     }
+
+    /**
+     * Check whether the icon uses the bold weight.
+     */
+    public function isBold(): bool
+    {
+        return str_ends_with($this->value, '-'.Weight::Bold->value);
+    }
+
+    /**
+     * Check whether the icon uses the duotone weight.
+     */
+    public function isDuotone(): bool
+    {
+        return str_ends_with($this->value, '-'.Weight::Duotone->value);
+    }
+
+    /**
+     * Check whether the icon uses the fill weight.
+     */
+    public function isFill(): bool
+    {
+        return str_ends_with($this->value, '-'.Weight::Fill->value);
+    }
+
+    /**
+     * Check whether the icon uses the light weight.
+     */
+    public function isLight(): bool
+    {
+        return str_ends_with($this->value, '-'.Weight::Light->value);
+    }
+
+    /**
+     * Check whether the icon uses the thin weight.
+     */
+    public function isThin(): bool
+    {
+        return str_ends_with($this->value, '-'.Weight::Thin->value);
+    }
+
+    /**
+     * Check whether the icon uses the regular weight (no weight suffix).
+     */
+    public function isRegular(): bool
+    {
+        if ($this->isBold() || $this->isDuotone() || $this->isFill() || $this->isLight() || $this->isThin()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getAllIcons(): array
+    {
+        return array_map(fn (self $icon) => $icon->getLabel(), self::cases());
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getAllDuotoneIcons(): array
+    {
+        return self::getIconsByWeight(fn (self $icon) => $icon->isDuotone());
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getAllFillIcons(): array
+    {
+        return self::getIconsByWeight(fn (self $icon) => $icon->isFill());
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getAllLightIcons(): array
+    {
+        return self::getIconsByWeight(fn (self $icon) => $icon->isLight());
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getAllThinIcons(): array
+    {
+        return self::getIconsByWeight(fn (self $icon) => $icon->isThin());
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getAllBoldIcons(): array
+    {
+        return self::getIconsByWeight(fn (self $icon) => $icon->isBold());
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function getAllRegularIcons(): array
+    {
+        return self::getIconsByWeight(fn (self $icon) => $icon->isRegular());
+    }
+
+    /**
+     * @param  callable(self): bool  $filter
+     * @return array<int, string>
+     */
+    private static function getIconsByWeight(callable $filter): array
+    {
+        return array_values(array_map(
+            fn (self $icon) => $icon->getLabel(),
+            array_filter(self::cases(), $filter),
+        ));
+    }
 }
